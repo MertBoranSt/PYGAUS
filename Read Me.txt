@@ -1,0 +1,98 @@
+Python codes used in the study called "The-Relation-between-Spectral-Type-and-Stellar-Rotation"
+
+Since the grouped data are given a number, -for example O5 star is written as 6 in the spectral type- you should be careful when editing the codes you have adapted for yourself. Another issue that should be noted is that for other data used in other stages of the study, for example Lc's, the code remained the same and only the read data file changed.
+
+Code for averages 
+
+import pandas as pd
+
+# Read the excel file
+(You can read the file format you want, we have read the excel file because we are processing through excel here.)
+file path = "------------------.xlsx"  #
+data = pd.read_excel
+
+# To convert text values in the 'Vsini' column to numeric values
+data['Vsini'] = pd.to_numeric(data['Vsini'], errors='coerce')
+
+# To group Spectral Class values and their corresponding Vsini
+grouped_data = grouped_data('ST')['Vsini'].mean()
+
+# To print the results on the screen
+print("Spectral Class and Avarege Vsini:")
+print(grouped_data.to_string())
+
+
+
+Code for Fit graphics
+
+Important things to consider when creating a fit for your graphics.
+Firstly, you should use the appropriate fit library (e.g. Lmfit, Curvefit).
+Then you should carefully check the files containing your data for any missing data or repetitive data.
+Your code must be suitable for the file format you read. 
+Depending on the type of your graph, how many Gauss equations you will use varies For example, when there is too much scattered data or the connections between the data are weak, you may not be able to create the fit you want. In such cases, you can add extra Gaussian equations so as not to create overfitting. 
+You should be careful when setting the parameters. Very small changes can cause distortions in your fit or irrelevant results. Creating the appropriate fit can be difficult and may cause you to try too many times. Never give up :)
+For those who want to set the parameters automatically, the code is as follows:
+params = model.make_params(
+    g1_center=np.mean(x_data),
+    g1_amplitude=np.max(y_data),
+    g1_sigma=5,
+    g2_center=np.mean(x_data),
+    g2_amplitude=np.max(y_data),
+    g2_sigma=5,
+    g3_center=np.mean(x_data),
+    g3_amplitude=np.max(y_data),
+    g3_sigma=5,
+    exp_amplitude=np.min(y_data),
+    exp_decay=0.1
+)
+Here you have to adjust the sigma and decay values.
+Apart from these, you can use different methods if you want to make improvements in your code. For example, one of them is the "Trust Region Reflective (TRF)" method. 
+Sample code fragment:
+result = model.fit(y_data, params, x=x_data, method='trf')
+
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+from lmfit.models import GaussianModel, ExponentialModel
+
+# Read the data file
+file_path = "--------------------"
+data = np.loadtxt(file_path)
+
+Select the columns to be read for X and Y data
+x_data = data[:, 0]
+y_data = data[:, 1]
+
+# Creating Gaussian and Exponential models
+gauss1 = GaussianModel(prefix='g1_')
+gauss2 = GaussianModel(prefix='g2_')
+exponential = ExponentialModel(prefix='exp_')
+
+# Total model creation
+model = gauss1 + gauss2 + exponential
+
+# Generating parameter estimates
+(When creating parameter estimates, make different trials and plays on the parameters. Because not every fit estimate is compatible with every data. You should experiment until you reach the most accurate result. Sometimes this is the reason for the error in the code.)
+
+params = model.make_params(
+    g1_center=45, g1_amplitude=50, g1_sigma=5,
+    g2_center=60, g2_amplitude=50, g2_sigma=5,
+    exp_amplitude=10, exp_decay=0.1
+)
+
+# Fit the data
+result = model.fit(y_data, params, x=x_data)
+
+# Show fit results
+print(result.fit_report(min_correl=0.5))
+
+# Plotting a graph
+plt.scatter(x_data, y_data, label='data')
+plt.plot(x_data, result.best_fit, 'r-', label='fit')
+plt.legend()
+plt.xlabel('Spectral Type')
+plt.ylabel('Avg. Vsini')
+plt.title('ST-Vsini')
+plt.show()
