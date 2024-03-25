@@ -1,5 +1,1 @@
-The {\sc pygaus} code utilised to efficiently and consistently apply a Gaussian
-model to the relevant data. The code includes 
-\texttt{matplotlib} \citep{Hunter2007}, \texttt{numpy} \citep{harris2020array}, 
-\texttt{pandas}\footnote{https://pandas.pydata.org/} and
-lmfit \citep{newville201511813} Python libraries. 
+The pygaus code utilised to efficiently and consistently apply a Gaussian model to the relevant data. The code includes matplotlib (Hunter, 2007), numpy (Harris, 2020), pandas (https://pandas.pydata.org/) and lmfit (Newville, 2015) Python libraries. 
