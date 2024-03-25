@@ -1,6 +1,8 @@
-Python codes used in the study called "The-Relation-between-Spectral-Type-and-Stellar-Rotation"
+The Pygaus code is used in the study called "The-Relation-between-Spectral-Type-and-Stellar-Rotation".
 
-Since the grouped data are given a number, -for example O5 star is written as 6 in the spectral type- you should be careful when editing the codes you have adapted for yourself. Another issue that should be noted is that for other data used in other stages of the study, for example Lc's, the code remained the same and only the read data file changed.
+Important:
+Since the grouped data are digitised, -for example O5 spectral type star is numbered by 6- you should be careful when editing the codes you have adapted for yourself. 
+The caution is same in luminosity classes and the code remained the same and only the read data file changed.
 
 Code for averages 
 
