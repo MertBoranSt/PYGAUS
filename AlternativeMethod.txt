@@ -1,0 +1,30 @@
+To consider when creating a Gaussian fit with the code:
+
+**Alternative fit libraries appropriate for the code are Lmfit and Curvefit.
+
+If you changed the library:
+
+1) You should carefully check the files containing your data for any missing data or repetitive data.
+2) Your code must be suitable for the file format you read. 
+3) Depending on your data, number of Gauss components will be varied. If there is too much scattered data or the correlations of the data are weak, you may not be able to create the fit you want. In such cases, you can add extra Gaussian components. But, carefeully, do not create overfitting! 
+4) You should be careful when setting the parameters. Small changes on the parameters can cause big problems! Creating the appropriate fit can be difficult and may cause you to try too many times. Never give up :)
+5) For those who want to set the parameters automatically, you have to adjust the sigma and decay values, the code is as follows:
+
+    params = model.make_params(
+    g1_center=np.mean(x_data),
+    g1_amplitude=np.max(y_data),
+    g1_sigma=5,
+    g2_center=np.mean(x_data),
+    g2_amplitude=np.max(y_data),
+    g2_sigma=5,
+    g3_center=np.mean(x_data),
+    g3_amplitude=np.max(y_data),
+    g3_sigma=5,
+    exp_amplitude=np.min(y_data),
+    exp_decay=0.1
+)
+
+6) Apart from these, you can use different methods if you want to make improvements in the code. For example, "Trust Region Reflective (TRF)" method. Sample code line:
+
+    result = model.fit(y_data, params, x=x_data, method='trf')
+    
